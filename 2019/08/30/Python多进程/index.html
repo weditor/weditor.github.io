@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    search: {
+      root: '/',
+      path: ''
+    },
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="Python 多进程Python 多进程常用方法:  os.fork: 直接调用系统fork接口，Linux下可用，无法在windows中使用。 subprocess: 启动其他进程，并与之交互。 multiprocessing: 类似于subprocess，启动一个进程，但是执行的目标是一个当前上下文环境下的函数。">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python多进程(一)">
+<meta property="og:url" content="http://yoursite.com/2019/08/30/Python多进程/index.html">
+<meta property="og:site_name" content="破风扇轱辘">
+<meta property="og:description" content="Python 多进程Python 多进程常用方法:  os.fork: 直接调用系统fork接口，Linux下可用，无法在windows中使用。 subprocess: 启动其他进程，并与之交互。 multiprocessing: 类似于subprocess，启动一个进程，但是执行的目标是一个当前上下文环境下的函数。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-30T16:48:17.164Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python多进程(一)">
+<meta name="twitter:description" content="Python 多进程Python 多进程常用方法:  os.fork: 直接调用系统fork接口，Linux下可用，无法在windows中使用。 subprocess: 启动其他进程，并与之交互。 multiprocessing: 类似于subprocess，启动一个进程，但是执行的目标是一个当前上下文环境下的函数。">
+  <link rel="canonical" href="http://yoursite.com/2019/08/30/Python多进程/">
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Python多进程(一) | 破风扇轱辘</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">破风扇轱辘</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">吹啊吹啊吹折了我的骄傲放纵</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+    <ul id="menu" class="menu">
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+    </ul>
+</nav>
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/30/Python多进程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ao Chujie">
+      <meta itemprop="description" content="力所能及的技术">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="破风扇轱辘">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">Python多进程(一)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-30 22:01:27" itemprop="dateCreated datePublished" datetime="2019-08-30T22:01:27+08:00">2019-08-30</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-31 00:48:17" itemprop="dateModified" datetime="2019-08-31T00:48:17+08:00">2019-08-31</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          <br>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Python-多进程"><a href="#Python-多进程" class="headerlink" title="Python 多进程"></a>Python 多进程</h1><p>Python 多进程常用方法:</p>
+<ul>
+<li>os.fork: 直接调用系统fork接口，Linux下可用，无法在windows中使用。</li>
+<li>subprocess: 启动其他进程，并与之交互。</li>
+<li>multiprocessing: 类似于subprocess，启动一个进程，但是执行的目标是一个当前上下文环境下的函数。</li>
+</ul>
+<a id="more"></a>
+<p>os.fork 和 subprocess 相对来说比较简单，这里主要说一下 multiprocessing 。</p>
+<h2 id="multiprocessing-介绍"><a href="#multiprocessing-介绍" class="headerlink" title="multiprocessing 介绍"></a>multiprocessing 介绍</h2><p>multiprocessing 的模块：</p>
+<ul>
+<li>Process： 在另外一个进程中启动函数。</li>
+<li>Pool: 在一个进程池中启动函数。提供 apply/imap 等高级封装接口。</li>
+</ul>
+<h2 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h2><p>Process 的使用方法也比较简单, 将一个函数及其参数传入 <code>Process</code>，<br>调用start即可启动进程。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_something</span><span class="params">(text)</span>:</span></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    print(<span class="string">'I like'</span>, text)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">process = Process(target=do_something, args=(<span class="string">"fish"</span>,))</span><br><span class="line">process.start()</span><br><span class="line"></span><br><span class="line">print(<span class="string">'wait process to finish.'</span>)</span><br><span class="line">process.join()</span><br></pre></td></tr></table></figure>
+<p>输出:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wait process to finish.</span><br><span class="line">I like fish</span><br></pre></td></tr></table></figure></p>
+<p>使用 <code>Process</code> 执行函数可以开启一个额外的进程执行指定函数，以此绕开GIL限制，<br>通常用来给CPU密集型任务加速。</p>
+<p>这个例子比较局限，子进程并没有返回值，启动后就没有和父进程交互。</p>
+<h2 id="Process-的父子进程通信"><a href="#Process-的父子进程通信" class="headerlink" title="Process 的父子进程通信"></a>Process 的父子进程通信</h2><p>multiprocessing 模块提供了 Queue/Pipe 用于进程间通信，Lock锁用于父子进程以及子进程之间的同步。如果需要其他变量共享，可以使用 Manager。</p>
+<h3 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h3><p>Queue是FIFO队列。拥有Queue的任何一方都可以自由地调用 <code>get/put</code> 方法获取/传送数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process, Queue</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">double_number</span><span class="params">(n: int, out_q)</span>:</span></span><br><span class="line">    out_q.put(n*<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">queue = Queue()</span><br><span class="line">process = Process(target=double_number, args=(<span class="number">3</span>, queue,))</span><br><span class="line">process.start()</span><br><span class="line">process.join()</span><br><span class="line">print(queue.get())</span><br></pre></td></tr></table></figure>
+<p>输出: <code>6</code></p>
+<h3 id="Pipe"><a href="#Pipe" class="headerlink" title="Pipe"></a>Pipe</h3><p>Pipe 是管道，默认是双向管道。每次构建一个Pipe会得到两个对象, 即Pipe的两个输入输出端。</p>
+<p>双向Pipe和Queue不同，管道的任意一端调用send后，另一方都可以立即调用recv获得值，即存在两个独立的管道：发送管道，接收管道。<br>而Queue在任意一方put后，如果队列中已经有其他人放了数据，必须先get完已经存在的数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process, Pipe</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">double_number</span><span class="params">(n: int, out)</span>:</span></span><br><span class="line">    out.send(n*<span class="number">2</span>)</span><br><span class="line">    print(out.recv())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">father, child = Pipe()</span><br><span class="line">process = Process(target=double_number, args=(<span class="number">3</span>, child,))</span><br><span class="line">process.start()</span><br><span class="line"></span><br><span class="line">father.send(<span class="number">-1</span>)</span><br><span class="line">process.join()</span><br><span class="line">print(father.recv())</span><br></pre></td></tr></table></figure>
+<p>输出:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-1</span><br><span class="line">6</span><br></pre></td></tr></table></figure></p>
+<h3 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h3><p>Lock， 是一种进程安全的同步锁，和一般的互斥锁用法一样。</p>
+<h3 id="Manager"><a href="#Manager" class="headerlink" title="Manager"></a>Manager</h3><p>Manager是多进程环境下对共享数据的高级抽象。<br>除了内存方式实现多进程外，还可以通过网络实现多机器之间的对象共享。</p>
+<p>（待补充）</p>
+<h2 id="Pool"><a href="#Pool" class="headerlink" title="Pool"></a>Pool</h2><p>Pool 是在 Process 之上实现的进程池。是对多进程的高级抽象，隐藏了多进程通信细节。</p>
+<p><code>Pool.map</code> 允许传入一个函数和一个序列，函数会依次执行序列中每个对象并按顺序返回结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">double_number</span><span class="params">(n: int)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> n*<span class="number">2</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 最大4进程的进程池</span></span><br><span class="line">pool = Pool(<span class="number">4</span>)</span><br><span class="line">print(pool.map(double_number, range(<span class="number">5</span>)))</span><br></pre></td></tr></table></figure>
+<p>输出: <code>[0, 2, 4, 6, 8]</code></p>
+<p>注意： Pool 在形式上用起来很简单，实际上进程间通信使用的 pickle 坑的一批，动不动就 PickingError 。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>另外还有一个与<code>multiprocessing.Pool</code> 接口相似的模块 <code>concurrent.futures</code>,<br>其中提供了对于线程和进程两种并发方式的统一接口封装：<code>ProcessPoolExecutor</code>/<code>ThreadPoolExecutor</code> 。<br>接口更加简单和易用, 主要使用了 <code>Future</code> 的实现方式， 额外提供了timeout控制，不过Future会耗费一些性能。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/2019/08/31/熵的意义/" rel="prev" title="信息熵">
+                信息熵 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ao Chujie</p>
+  <div class="site-description motion-element" itemprop="description">力所能及的技术</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+        
+        
+          
+        
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+        
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+        
+        
+          
+        
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+        
+      </div>
+    
+  </nav>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Python-多进程"><span class="nav-number">1.</span> <span class="nav-text">Python 多进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-介绍"><span class="nav-number">1.1.</span> <span class="nav-text">multiprocessing 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Process"><span class="nav-number">1.2.</span> <span class="nav-text">Process</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Process-的父子进程通信"><span class="nav-number">1.3.</span> <span class="nav-text">Process 的父子进程通信</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Queue"><span class="nav-number">1.3.1.</span> <span class="nav-text">Queue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pipe"><span class="nav-number">1.3.2.</span> <span class="nav-text">Pipe</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lock"><span class="nav-number">1.3.3.</span> <span class="nav-text">Lock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Manager"><span class="nav-number">1.3.4.</span> <span class="nav-text">Manager</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pool"><span class="nav-number">1.4.</span> <span class="nav-text">Pool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">1.5.</span> <span class="nav-text">其他</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ao Chujie</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  <script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+  
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.3.0"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

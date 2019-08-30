@@ -30,7 +30,7 @@
     version: '7.3.0',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
     fancybox: false,
     mediumzoom: false,
     lazyload: false,
@@ -162,6 +162,17 @@
         
         
           
+          <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
           <li class="menu-item menu-item-archives">
       
     
@@ -193,7 +204,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/28/熵的意义/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/31/熵的意义/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ao Chujie">
@@ -210,7 +221,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/08/28/熵的意义/" class="post-title-link" itemprop="url">信息熵</a>
+                <a href="/2019/08/31/熵的意义/" class="post-title-link" itemprop="url">信息熵</a>
               
             
           </h1>
@@ -229,12 +240,8 @@
                 
               
 
-              <time title="创建时间：2019-08-28 00:03:28 / 修改时间：01:14:31" itemprop="dateCreated datePublished" datetime="2019-08-28T00:03:28+08:00">2019-08-28</time>
+              <time title="创建时间：2019-08-31 00:31:06" itemprop="dateCreated datePublished" datetime="2019-08-31T00:31:06+08:00">2019-08-31</time>
             </span>
-          
-            
-
-            
           
 
           <br>
@@ -248,30 +255,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
+          <h1 id="信息熵的公式"><a href="#信息熵的公式" class="headerlink" title="信息熵的公式"></a>信息熵的公式</h1><script type="math/tex; mode=display">
+H(x) = -\sum_0^n(p_i*\log p_i)</script>
+          <!--noindex-->
           
-            <h1 id="信息熵的公式"><a href="#信息熵的公式" class="headerlink" title="信息熵的公式"></a>信息熵的公式</h1><script type="math/tex; mode=display">
-H(x) = -\sum_0^n(p_i*\log p_i)</script><p>信息熵通常代表一段序列包含的信息量的大小。如果序列容易预测，表示所含的信息量很低，相反不容易预测，就称为信息量大。</p>
-<p>进一步讲，概率越小的事情发生了，越超越人类认知，包含的信息量也越大，比如月球撞击地球。</p>
-<h1 id="理解信息熵"><a href="#理解信息熵" class="headerlink" title="理解信息熵"></a>理解信息熵</h1><p>信息熵的关键在于理解 $log p_i$ .</p>
-<p>假设一组事件中的单个事件 i 发生的概率是 $p_i$ 。信息熵的含义是当 i 发生时，一个人猜中i发生所需要的平均猜测次数。</p>
-<p>比如一个骰子1朝上，按照最有效率的方法，一个人会按照以下二分法猜测：</p>
-<ol>
-<li>骰子点数大于等于4？ =&gt; 否</li>
-<li>点数大于等于2? =&gt; 否</li>
-<li>点数是 1 =&gt; 是</li>
-</ol>
-<p>显然, 单个事件发生后，所需要的猜测次数:</p>
-<script type="math/tex; mode=display">
-C_i = \log_2 (1/p_i) = -\log_2 p_i</script><p>而每个事件 i 发生的概率为 $p_i$</p>
-<p>所以，平均猜测次数的期望为 </p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-E(C) & = \sum_0^n(p_i * C_i) \\
-    & = \sum_0^n(p_i * (-\log_2 p_i)) \\
-    & = -\sum_0^n(p_i * \log_2 p_i)
-\end{aligned}</script><p>其中 log 的底可以取其他值，取不同的值会把最后的熵等比例放大，物理意义就是每猜测一次允许分开的区间,<br>即上面的猜测方法更改为二分法/三分法/四分法……</p>
-
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/08/31/熵的意义/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
+          <!--/noindex-->
         
       
     </div>
@@ -297,7 +291,7 @@ E(C) & = \sum_0^n(p_i * C_i) \\
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/30/Python多进程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ao Chujie">
@@ -314,7 +308,7 @@ E(C) & = \sum_0^n(p_i * C_i) \\
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/08/27/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+                <a href="/2019/08/30/Python多进程/" class="post-title-link" itemprop="url">Python多进程(一)</a>
               
             
           </h1>
@@ -333,7 +327,36 @@ E(C) & = \sum_0^n(p_i * C_i) \\
                 
               
 
-              <time title="创建时间：2019-08-27 23:59:33" itemprop="dateCreated datePublished" datetime="2019-08-27T23:59:33+08:00">2019-08-27</time>
+              <time title="创建时间：2019-08-30 22:01:27" itemprop="dateCreated datePublished" datetime="2019-08-30T22:01:27+08:00">2019-08-30</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-31 00:48:17" itemprop="dateModified" datetime="2019-08-31T00:48:17+08:00">2019-08-31</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
             </span>
           
 
@@ -348,18 +371,21 @@ E(C) & = \sum_0^n(p_i * C_i) \\
     <div class="post-body" itemprop="articleBody">
 
       
+          <h1 id="Python-多进程"><a href="#Python-多进程" class="headerlink" title="Python 多进程"></a>Python 多进程</h1><p>Python 多进程常用方法:</p>
+<ul>
+<li>os.fork: 直接调用系统fork接口，Linux下可用，无法在windows中使用。</li>
+<li>subprocess: 启动其他进程，并与之交互。</li>
+<li>multiprocessing: 类似于subprocess，启动一个进程，但是执行的目标是一个当前上下文环境下的函数。</li>
+</ul>
+          <!--noindex-->
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/08/30/Python多进程/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
+          <!--/noindex-->
         
       
     </div>
@@ -415,6 +441,32 @@ E(C) & = \sum_0^n(p_i * C_i) \\
           <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+        
+        
+          
+        
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+        
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+        
+        
+          
+        
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+        
       </div>
     
   </nav>
